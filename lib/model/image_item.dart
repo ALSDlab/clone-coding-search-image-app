@@ -1,4 +1,4 @@
-class ImageItem{
+class ImageItem {
   String imageUrl;
   String tags;
 
