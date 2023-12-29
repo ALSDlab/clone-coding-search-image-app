@@ -1,4 +1,4 @@
-import 'package:clone_coding_image_search_app/ui/main_screen.dart';
+import 'package:clone_coding_image_search_app/ui/page/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
