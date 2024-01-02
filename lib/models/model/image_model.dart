@@ -1,10 +1,10 @@
 class ImageModel {
-  String ImageUrl;
+  String imageURL;
   String tags;
 
 //<editor-fold desc="Data Methods">
   ImageModel({
-    required this.ImageUrl,
+    required this.imageURL,
     required this.tags,
   });
 
@@ -13,37 +13,37 @@ class ImageModel {
       identical(this, other) ||
       (other is ImageModel &&
           runtimeType == other.runtimeType &&
-          ImageUrl == other.ImageUrl &&
+          imageURL == other.imageURL &&
           tags == other.tags);
 
   @override
-  int get hashCode => ImageUrl.hashCode ^ tags.hashCode;
+  int get hashCode => imageURL.hashCode ^ tags.hashCode;
 
   @override
   String toString() {
-    return 'ImageModel{ ImageUrl: $ImageUrl, tags: $tags,}';
+    return 'ImageModel{ imageURL: $imageURL, tags: $tags,}';
   }
 
   ImageModel copyWith({
-    String? imageUrl,
+    String? imageURL,
     String? tags,
   }) {
     return ImageModel(
-      ImageUrl: ImageUrl ?? this.ImageUrl,
+      imageURL: imageURL ?? this.imageURL,
       tags: tags ?? this.tags,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
-      'ImageUrl': ImageUrl,
+      'imageURL': imageURL,
       'tags': tags,
     };
   }
 
-  factory ImageModel.fromJson(Map<String, dynamic> map) {
+  factory ImageModel.fromMap(Map<String, dynamic> map) {
     return ImageModel(
-      ImageUrl: map['ImageUrl'] as String,
+      imageURL: map['imageURL'] as String,
       tags: map['tags'] as String,
     );
   }
