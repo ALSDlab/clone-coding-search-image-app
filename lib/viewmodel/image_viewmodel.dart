@@ -1,5 +1,5 @@
-import 'package:clone_coding_image_search_app/model/image_model.dart';
 import 'package:clone_coding_image_search_app/repository/image_repository.dart';
+import 'package:clone_coding_image_search_app/viewmodel/image_state.dart';
 import 'package:flutter/cupertino.dart';
 
 class ImageViewModel extends ChangeNotifier {
@@ -9,17 +9,20 @@ class ImageViewModel extends ChangeNotifier {
     required ImageRepository repository,
   }) : _repository = repository;
 
-  List<ImageModel> _imageItems = [];
-  bool _isLoading = false;
+  ImageState _state =
+      ImageState(imageItems: List.unmodifiable([]), isLoading: false);
 
-  List<ImageModel> get imageItems => List.unmodifiable(_imageItems);
-
-  bool get isLoading => _isLoading;
+  ImageState get state => _state;
 
   Future<void> searchImage(String query) async {
-    _isLoading = true;
-    _imageItems = await _repository.getImageModels(query);
-    _isLoading = false;
+// 화면 갱신
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+// 다시 화면갱신
+    _state = state.copyWith(
+        isLoading: false,
+        imageItems: List.unmodifiable(await _repository.getImageModels(query)));
+
     notifyListeners();
   }
 }

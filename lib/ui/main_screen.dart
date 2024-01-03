@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final viewmodel = context.watch<ImageViewModel>();
+    final imageState = viewmodel.state;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -54,24 +55,25 @@ class _MainScreenState extends State<MainScreen> {
                                 .searchImage(searchTextController.text);
                           },
                         ))),
-                viewmodel.isLoading
-                    ? Center(child: CircularProgressIndicator())
+                imageState.isLoading
+                    ? const Center(child: CircularProgressIndicator())
                     : Expanded(
                         child: GridView.builder(
-                            itemCount: viewmodel.imageItems.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 30,
-                              mainAxisSpacing: 30,
-                            ),
-                            itemBuilder: (context, index) {
-                              final image = viewmodel.imageItems[index];
-                              return ImageItem(
-                                imageModel: image,
-                              );
-                            }),
-                      )
+                          itemCount: imageState.imageItems.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 30,
+                            mainAxisSpacing: 30,
+                          ),
+                          itemBuilder: (context, index) {
+                            final image = imageState.imageItems[index];
+                            return ImageItem(
+                              imageModel: image,
+                            );
+                          },
+                        ),
+                      ),
               ],
             ),
           ),
