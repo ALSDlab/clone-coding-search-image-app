@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:clone_coding_image_search_app/models/dto/image_dto.dart';
+import 'package:clone_coding_image_search_app/dto/image_dto.dart';
 import 'package:http/http.dart' as http;
+
 
 class ImageApi {
   Future<ImageDto> getImageSource(String query) async{

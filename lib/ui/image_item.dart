@@ -1,17 +1,17 @@
-import 'package:clone_coding_image_search_app/models/model/image_model.dart';
+import 'package:clone_coding_image_search_app/model/image_model.dart';
 import 'package:flutter/material.dart';
 
-class ImageWidget extends StatelessWidget {
-  const ImageWidget({super.key, required this.item});
+class ImageItem extends StatelessWidget {
+  const ImageItem({super.key, required this.imageModel});
 
-  final ImageModel item;
+  final ImageModel imageModel;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.network(
-        item.imageURL,
+        imageModel.imageURL,
         fit: BoxFit.cover,
       ),
     );

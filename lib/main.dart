@@ -1,9 +1,12 @@
-import 'package:clone_coding_image_search_app/viewmodels/image_viewmodel.dart';
-import 'package:clone_coding_image_search_app/views/screen/main_screen.dart';
+import 'package:clone_coding_image_search_app/di/di_setup.dart';
+import 'package:clone_coding_image_search_app/routes.dart';
+import 'package:clone_coding_image_search_app/ui/main_screen.dart';
+import 'package:clone_coding_image_search_app/viewmodel/image_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  diSetup();
   runApp(const MyApp());
 }
 
@@ -13,15 +16,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ImageViewModel(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const MainScreen(),
+    return MaterialApp.router(
+      routerConfig: router,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
     );
   }
