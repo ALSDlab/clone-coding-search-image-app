@@ -34,14 +34,14 @@ class ImageModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'imageURL': imageURL,
       'tags': tags,
     };
   }
 
-  factory ImageModel.fromMap(Map<String, dynamic> map) {
+  factory ImageModel.fromJson(Map<String, dynamic> map) {
     return ImageModel(
       imageURL: map['imageURL'] as String,
       tags: map['tags'] as String,

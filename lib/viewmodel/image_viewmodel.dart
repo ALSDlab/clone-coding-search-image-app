@@ -9,8 +9,7 @@ class ImageViewModel extends ChangeNotifier {
     required ImageRepository repository,
   }) : _repository = repository;
 
-  ImageState _state =
-      ImageState(imageItems: List.unmodifiable([]), isLoading: false);
+  ImageState _state = const ImageState();
 
   ImageState get state => _state;
 
