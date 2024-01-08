@@ -1,5 +1,5 @@
 
-import 'package:clone_coding_image_search_app/data/di/image_di.dart';
+import 'package:clone_coding_image_search_app/di/di_setup.dart';
 import 'package:clone_coding_image_search_app/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +16,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-
     );
   }
 }

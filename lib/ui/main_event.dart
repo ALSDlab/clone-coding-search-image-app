@@ -3,8 +3,14 @@ import 'package:flutter/foundation.dart';
 
 part 'main_event.freezed.dart';
 
+part 'main_event.g.dart';
+
 @freezed
-sealed class MainEvent with _$MainEvent {
+class MainEvent with _$MainEvent {
   const factory MainEvent.showSnackBar(String message) = ShowSnackBar;
+
   const factory MainEvent.showDialog(String message) = ShowDialog;
+
+  factory MainEvent.fromJson(Map<String, Object?> json) =>
+      _$MainEventFromJson(json);
 }

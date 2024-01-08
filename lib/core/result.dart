@@ -7,6 +7,5 @@ part 'result.freezed.dart';
 sealed class Result<T> with _$Result<T> {
   const factory Result.success(T data) = Success;
 
-  const factory Result.error(String e) = Error;
-
+  const factory Result.error(Exception e) = Error;
 }
