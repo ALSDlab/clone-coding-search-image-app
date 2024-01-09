@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:clone_coding_image_search_app/data/model/image_model.dart';
-import 'package:clone_coding_image_search_app/ui/image_view_model.dart';
-import 'package:clone_coding_image_search_app/ui/main_event.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:clone_coding_image_search_app/ui/image_item_widget.dart';
+import 'package:clone_coding_image_search_app/ui/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'image_widget.dart';
+import 'main_event.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -22,42 +20,49 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    Future.microtask(
+      () {
+        subscription = context.read<MainViewModel>().eventController.listen(
+          (event) {
+            switch (event) {
+              case ShowSnackBar():
+                final snackBar = SnackBar(content: Text(event.message));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              case ShowDialog():
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    final dialog = AlertDialog(
+                      title: Center(
+                        child: Text(event.message),
+                      ),
+                    );
+                    return dialog;
+                  },
+                );
+            }
+          },
+        );
+      },
+    );
     super.initState();
-    Future.microtask(() {
-      subscription = context.read<ImageViewModel>().eventController.listen((event) {
-        switch(event){
-          case ShowSnackBar():
-            final snackBar = SnackBar(content: Text(event.message));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          case ShowDialog():
-            showDialog(context: context, builder: (context) {
-              final dialog = AlertDialog(
-                title: Center(child: Text(event.message),),
-              );
-              return dialog;
-            });
-        }
-      });
-      return null;
-    });
   }
-
 
   @override
   void dispose() {
-    super.dispose();
     searchTextController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<ImageViewModel>();
+    final viewModel = context.watch<MainViewModel>();
     final state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           '이미지 검색',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 24),
         ),
       ),
       body: SafeArea(
@@ -67,27 +72,29 @@ class _MainScreenState extends State<MainScreen> {
               TextField(
                 controller: searchTextController,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        width: 3,
-                        color: Colors.green,
-                      ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      width: 3,
+                      color: Colors.pink,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        width: 4,
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        viewModel.searchImage(searchTextController.text);
-                      },
-                    ),
-                    hintText: '검색어를 입력하세요'),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide:
+                        const BorderSide(width: 3, color: Colors.purple),
+                  ),
+                  hintText: '검색',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      viewModel.searchImage(searchTextController.text);
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
               ),
               state.isLoading
                   ? const Center(
@@ -95,7 +102,7 @@ class _MainScreenState extends State<MainScreen> {
                     )
                   : Expanded(
                       child: GridView.builder(
-                          itemCount: state.imageModelLists.length,
+                          itemCount: state.imageModels.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -103,8 +110,8 @@ class _MainScreenState extends State<MainScreen> {
                             mainAxisSpacing: 32,
                           ),
                           itemBuilder: (context, index) {
-                            final item = state.imageModelLists[index];
-                            return ImageWidget(imageItem: item);
+                            final imageItem = state.imageModels[index];
+                            return ImageItemWidget(imageItem: imageItem);
                           }))
             ],
           ),

@@ -10,9 +10,10 @@ part 'main_state.g.dart';
 @freezed
 class MainState with _$MainState {
   const factory MainState({
-    @Default([]) List<ImageModel> imageModelLists,
+    @Default([]) List<ImageModel> imageModels,
     @Default(false) bool isLoading,
   }) = _MainState;
 
-  factory MainState.fromJson(Map<String, Object?> json) => _$MainStateFromJson(json);
+  factory MainState.fromJson(Map<String, Object?> json) =>
+      _$MainStateFromJson(json);
 }
