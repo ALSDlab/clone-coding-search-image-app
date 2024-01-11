@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:clone_coding_image_search_app/core/result.dart';
 import 'package:clone_coding_image_search_app/data/model/image_model.dart';
 import 'package:clone_coding_image_search_app/data/repository/image_repository.dart';
+import 'package:clone_coding_image_search_app/ui/main_event.dart';
 import 'package:clone_coding_image_search_app/ui/main_state.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'main_event.dart';
+import '../core/result.dart';
 
 class MainViewModel extends ChangeNotifier {
-  final ImageRepository _repository;
+  ImageRepository _repository;
   final _eventController = StreamController<MainEvent>();
 
   MainViewModel({
@@ -27,21 +27,18 @@ class MainViewModel extends ChangeNotifier {
     notifyListeners();
 
     final result = await _repository.getImageModels(query);
-
     switch (result) {
       case Success<List<ImageModel>>():
         _state = state.copyWith(
           isLoading: false,
           imageModels: result.data,
         );
-        _eventController.add(const MainEvent.showSnackBar('불러오기 성공~!'));
-        break;
+        _eventController.add(const MainEvent.showSnackBar('Success~!!!'));
       case Error<List<ImageModel>>():
         _state = state.copyWith(
           isLoading: false,
         );
-        _eventController.add(const MainEvent.showSnackBar('불러오기 실패~!'));
-        break;
+        _eventController.add(const MainEvent.showSnackBar('Search Image Failed~!!!'));
     }
     notifyListeners();
   }

@@ -5,7 +5,7 @@ extension DtoToModel on Hits {
   ImageModel dtoToModel() {
     return ImageModel(
         imageURL: previewURL ??
-            'https://wallpaperswide.com/download/amazing_asiatic_landscape_art-wallpaper-1920x1080.jpg',
+            'https://wallpaperswide.com/download/snowman_winter_tradition-wallpaper-1920x1080.jpg',
         tags: tags ?? '-');
   }
 }

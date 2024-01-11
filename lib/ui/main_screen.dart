@@ -59,61 +59,60 @@ class _MainScreenState extends State<MainScreen> {
     final viewModel = context.watch<MainViewModel>();
     final state = viewModel.state;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '이미지 검색',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              TextField(
-                controller: searchTextController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(
-                      width: 3,
-                      color: Colors.pink,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: TextField(
+                    controller: searchTextController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          width: 3,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          width: 3,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      hintText: '검색어 입력',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          viewModel.searchImage(searchTextController.text);
+                        },
+                      ),
                     ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide:
-                        const BorderSide(width: 3, color: Colors.purple),
-                  ),
-                  hintText: '검색',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      viewModel.searchImage(searchTextController.text);
-                    },
-                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              state.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Expanded(
-                      child: GridView.builder(
-                          itemCount: state.imageModels.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 32,
-                            mainAxisSpacing: 32,
-                          ),
-                          itemBuilder: (context, index) {
-                            final imageItem = state.imageModels[index];
-                            return ImageItemWidget(imageItem: imageItem);
-                          }))
-            ],
+                state.isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Expanded(
+                        child: GridView.builder(
+                            itemCount: state.imageModels.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 32,
+                              mainAxisSpacing: 32,
+                            ),
+                            itemBuilder: (context, index) {
+                              final imageItem = state.imageModels[index];
+                              return ImageItemWidget(imageItem: imageItem);
+                            }))
+              ],
+            ),
           ),
         ),
       ),
