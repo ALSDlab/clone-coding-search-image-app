@@ -1,16 +1,14 @@
 import 'dart:async';
 
+import 'package:clone_coding_image_search_app/core/result.dart';
 import 'package:clone_coding_image_search_app/data/model/image_model.dart';
 import 'package:clone_coding_image_search_app/data/repository/image_repository.dart';
 import 'package:clone_coding_image_search_app/ui/main_event.dart';
 import 'package:clone_coding_image_search_app/ui/main_state.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../core/result.dart';
-
 class MainViewModel extends ChangeNotifier {
-  ImageRepository _repository;
-  final _eventController = StreamController<MainEvent>();
+  final ImageRepository _repository;
 
   MainViewModel({
     required ImageRepository repository,
@@ -18,11 +16,13 @@ class MainViewModel extends ChangeNotifier {
 
   MainState _state = const MainState();
 
-  Stream<MainEvent> get eventController => _eventController.stream;
+  final _eventController = StreamController<MainEvent>();
 
   MainState get state => _state;
 
-  Future<void> searchImage(String query) async {
+  Stream<MainEvent> get eventController => _eventController.stream;
+
+  Future<void> searchImages(String query) async {
     _state = state.copyWith(isLoading: true);
     notifyListeners();
 
@@ -31,14 +31,14 @@ class MainViewModel extends ChangeNotifier {
       case Success<List<ImageModel>>():
         _state = state.copyWith(
           isLoading: false,
-          imageModels: result.data,
+          imageItems: result.data,
         );
-        _eventController.add(const MainEvent.showSnackBar('Success~!!!'));
+        _eventController.add(const MainEvent.showDialog('Success~~!!!'));
       case Error<List<ImageModel>>():
         _state = state.copyWith(
           isLoading: false,
         );
-        _eventController.add(const MainEvent.showSnackBar('Search Image Failed~!!!'));
+        _eventController.add(const MainEvent.showDialog('Failed~~!!!'));
     }
     notifyListeners();
   }
