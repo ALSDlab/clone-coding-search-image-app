@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:clone_coding_image_search_app/ui/image_item_widget.dart';
+import 'package:clone_coding_image_search_app/ui/main_event.dart';
 import 'package:clone_coding_image_search_app/ui/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'main_event.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final _searchTextController = TextEditingController();
+  final searchTextController = TextEditingController();
   StreamSubscription<MainEvent>? subscription;
 
   @override
@@ -28,7 +27,6 @@ class _MainScreenState extends State<MainScreen> {
               case ShowSnackBar():
                 final snackBar = SnackBar(content: Text(event.message));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
               case ShowDialog():
                 showDialog(
                   context: context,
@@ -51,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    _searchTextController.dispose();
+    searchTextController.dispose();
     super.dispose();
   }
 
@@ -61,56 +59,54 @@ class _MainScreenState extends State<MainScreen> {
     final state = viewModel.state;
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _searchTextController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            width: 4,
-                            color: Colors.pink,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            width: 4,
-                            color: Colors.deepOrange,
-                          ),
-                        ),
-                        hintText: '검색어를 입력하세요',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            viewModel.searchImages(_searchTextController.text);
-                          },
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: searchTextController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(width: 3, color: Colors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
+                          width: 4,
+                          color: Colors.deepOrange,
                         )),
+                    hintText: '검색어를 입력하세요',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        viewModel.searchImages(searchTextController.text);
+                      },
+                    ),
                   ),
-                  state.isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Expanded(
-                          child: GridView.builder(
-                              itemCount: state.imageItems.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 32,
-                                      mainAxisSpacing: 32),
-                              itemBuilder: (context, index) {
-                                final imageItem = state.imageItems[index];
-                                return ImageItemWidget(imageItem: imageItem);
-                              }))
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                state.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Expanded(
+                        child: GridView.builder(
+                            itemCount: state.imageItems.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 32,
+                              mainAxisSpacing: 32,
+                            ),
+                            itemBuilder: (context, index) {
+                              final imageItem = state.imageItems[index];
+                              return ImageItemWidget(imageItem: imageItem);
+                            }))
+              ],
             ),
           ),
         ),

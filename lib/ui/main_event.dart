@@ -8,8 +8,8 @@ part 'main_event.g.dart';
 @freezed
 class MainEvent with _$MainEvent {
   const factory MainEvent.showSnackBar(String message) = ShowSnackBar;
-
   const factory MainEvent.showDialog(String message) = ShowDialog;
+
 
   factory MainEvent.fromJson(Map<String, Object?> json) => _$MainEventFromJson(json);
 }

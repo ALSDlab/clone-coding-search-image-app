@@ -1,10 +1,14 @@
-import 'package:clone_coding_image_search_app/data/model/image_model.dart';
 import 'package:flutter/material.dart';
 
-class ImageItemWidget extends StatelessWidget {
-  const ImageItemWidget({super.key, required this.imageItem});
+import '../data/model/image_model.dart';
 
+class ImageItemWidget extends StatelessWidget {
   final ImageModel imageItem;
+
+  const ImageItemWidget({
+    super.key,
+    required this.imageItem,
+  });
 
   @override
   Widget build(BuildContext context) {

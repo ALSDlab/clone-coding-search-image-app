@@ -25,20 +25,17 @@ class MainViewModel extends ChangeNotifier {
   Future<void> searchImages(String query) async {
     _state = state.copyWith(isLoading: true);
     notifyListeners();
+    final result = await _repository.getImageModel(query);
 
-    final result = await _repository.getImageModels(query);
     switch (result) {
       case Success<List<ImageModel>>():
-        _state = state.copyWith(
-          isLoading: false,
-          imageItems: result.data,
-        );
-        _eventController.add(const MainEvent.showDialog('Success~~!!!'));
+        _state = state.copyWith(isLoading: false, imageItems: result.data);
+        _eventController.add(const MainEvent.showSnackBar('검색 성공!!!!'));
       case Error<List<ImageModel>>():
         _state = state.copyWith(
           isLoading: false,
         );
-        _eventController.add(const MainEvent.showDialog('Failed~~!!!'));
+        _eventController.add(const MainEvent.showSnackBar('검색 실패!!!!'));
     }
     notifyListeners();
   }
