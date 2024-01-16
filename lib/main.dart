@@ -1,6 +1,7 @@
-import 'package:clone_coding_image_search_app/di/di_setup.dart';
 import 'package:clone_coding_image_search_app/routes.dart';
 import 'package:flutter/material.dart';
+
+import 'di/di_setup.dart';
 
 void main() {
   diSetup();

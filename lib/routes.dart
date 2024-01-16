@@ -1,8 +1,9 @@
-import 'package:clone_coding_image_search_app/di/di_setup.dart';
 import 'package:clone_coding_image_search_app/ui/main_screen.dart';
 import 'package:clone_coding_image_search_app/ui/main_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'di/di_setup.dart';
 
 final router = GoRouter(routes: [
   GoRoute(

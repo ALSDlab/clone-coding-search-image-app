@@ -1,4 +1,4 @@
-class ImageModel {
+class ImageModel{
   String imageURL;
   String tags;
 

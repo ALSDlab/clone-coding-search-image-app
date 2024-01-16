@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:clone_coding_image_search_app/ui/image_item_widget.dart';
-import 'package:clone_coding_image_search_app/ui/main_event.dart';
 import 'package:clone_coding_image_search_app/ui/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'image_item_widget.dart';
+import 'main_event.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -60,54 +61,55 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: searchTextController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(width: 3, color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          width: 4,
-                          color: Colors.deepOrange,
-                        )),
-                    hintText: '검색어를 입력하세요',
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        viewModel.searchImages(searchTextController.text);
-                      },
+          child: Column(
+            children: [
+              TextField(
+                controller: searchTextController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                      width: 4,
+                      color: Colors.lightBlueAccent,
                     ),
                   ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                      width: 4,
+                      color: Colors.yellowAccent,
+                    ),
+                  ),
+                  hintText: '검색어 입력',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      viewModel.searchImages(searchTextController.text);
+                    },
+                  ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                state.isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Expanded(
-                        child: GridView.builder(
-                            itemCount: state.imageItems.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 32,
-                              mainAxisSpacing: 32,
-                            ),
-                            itemBuilder: (context, index) {
-                              final imageItem = state.imageItems[index];
-                              return ImageItemWidget(imageItem: imageItem);
-                            }))
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              state.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      child: GridView.builder(
+                          itemCount: state.imageItems.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 32,
+                            mainAxisSpacing: 32,
+                          ),
+                          itemBuilder: (context, index) {
+                            final iamgeItem = state.imageItems[index];
+                            return ImageItemWidget(imageItem: iamgeItem);
+                          }))
+            ],
           ),
         ),
       ),
