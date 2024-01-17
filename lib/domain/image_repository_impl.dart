@@ -8,7 +8,7 @@ class ImageRepositoryImpl implements ImageRepository {
   final _api = ImageApi();
 
   @override
-  Future<Result<List<ImageModel>>> getImageModels(String query) async {
+  Future<Result<List<ImageModel>>> getImageItems(String query) async {
     final dto = await _api.getImageSource(query);
     if (dto.hits == null) {
       return const Result.success([]);
